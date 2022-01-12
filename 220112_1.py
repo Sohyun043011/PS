@@ -10,7 +10,7 @@ def rotate_a_matrix_by_90_degree(a):
             result[j][n-i-1]=a[i][j]
     return result
 
-#자물쇠의 중간 부분이 모두 1인지 확인
+#자물쇠의 중간 부분이 모두 1인지 확인 (중간부분=실제 자물쇠 lock 부분)
 def check(new_lock):
     lock_length = len(new_lock)//3
     for i in range(lock_length,lock_length*2):
@@ -24,6 +24,7 @@ def solution(key,lock):
     m = len(key)
     #자물쇠의 크기를 기존의 3배로 변환
     new_lock = [[0]*(n*3) for _ in range(n*3)]
+
     #새로운 자물쇠의 중앙 부분에 기존의 자물쇠 넣기
     for i in range(n):
         for j in range(n):
@@ -37,9 +38,11 @@ def solution(key,lock):
                 for i in range(m):
                     for j in range(m):
                         new_lock[x+i][y+j]+=key[i][j]
-                    #새로운 자물쇠에 열쇠가 정확히 들어맞는지 검사
-                    if check(new_lock)==True:
-                        return True
-                    # 아니라면, 자물쇠에서 열쇠 다시 빼기
-                    new_lock[x+i][y+j]-=key[i][j]
+                #새로운 자물쇠에 열쇠가 정확히 들어맞는지 검사
+                if check(new_lock)==True:
+                    return True
+                # 아니라면, 자물쇠에서 열쇠 다시 빼기
+                for i in range(m):
+                    for j in range(m):
+                        new_lock[x+i][y+j]-=key[i][j]
     return False
