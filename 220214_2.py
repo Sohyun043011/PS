@@ -1,0 +1,40 @@
+# DFS/BFS 예제2
+
+from collections import deque
+
+#입력 받기
+n,m = map(int,input().split())
+graph = []
+for _ in range(n):
+    graph.append(list(map(int,input())))
+
+#이동할 네 방향 정의(상하좌우)
+dx = [-1,1,0,0]
+dy = [0,0,-1,1]
+
+
+def bfs(x,y):
+    queue = deque()
+    queue.append((x,y))
+    while queue:
+        x, y =queue.popleft()
+        #상하좌우 확인
+        for i in range(4):
+            nx = x+dx[i]
+            ny = y+dy[i]
+            #미로 찾기 공간을 벗어난 경우 무시
+            if nx<0 or nx>=n or ny<0 or ny>=m:
+                continue
+            #괴물인 경우 무시(graph 좌표 값 1 이 아닌 경우):
+            if graph[nx][ny]==0:
+                continue
+            #해당 노드를 처음 방문하는 경우에만 1
+            if graph[nx][ny]==1:
+                graph[nx][ny] = graph[x][y]+1
+                queue.append((nx,ny))
+    
+    # 가장 오른쪽 아래 좌표의 거리 return
+    return graph[n-1][m-1]
+
+#수행 결과 출력
+print(bfs(0,0))
